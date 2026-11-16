@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="tg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HACKER MASTER TJ</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;padding:18px;background:#080d0a;color:white;font-family:Arial,sans-serif}
+header{text-align:center;padding:20px}
+.logo{font-size:55px}
+h1,h2{color:#39ff14}
+header p{color:#9bb49b}
+.menu{display:grid;gap:12px}
+.item{background:#142019;border:1px solid #24552a;border-radius:13px;padding:18px;display:flex;align-items:center;gap:12px;font-size:16px;cursor:pointer}
+.number{margin-left:auto;color:#39ff14}
+#page{display:none;background:#142019;border:1px solid #39ff14;border-radius:14px;padding:18px;margin-top:20px}
+.tool{padding:14px;margin:9px 0;background:#080d0a;border-radius:9px;cursor:pointer}
+.back{background:#39ff14;color:#080d0a;padding:12px 20px;border:0;border-radius:9px;font-weight:bold}
+#result{white-space:pre-wrap;overflow-wrap:anywhere;color:#39ff14;margin-top:18px}
+footer{text-align:center;color:#39ff14;margin-top:25px}
+</style>
+</head>
+<body>
+<header>
+<div class="logo">🛡️</div>
+<h1>HACKER MASTER TJ</h1>
+<p>CYBER SECURITY • VERSION 2.0</p>
+</header>
+
+<div id="home">
+<h2>Салом! Хуш омадӣ 👋</h2>
+<p>Бахши лозимаро интихоб кун:</p>
+<div class="menu" id="menu"></div>
+</div>
+
+<div id="page">
+<button class="back" onclick="goBack()">← Бозгашт</button>
+<h2 id="pageTitle"></h2>
+<div id="tools"></div>
+<div id="result"></div>
+</div>
+
+<footer>HACKER MASTER TJ 🇹🇯</footer>
+
+<script>
+const sections=[
+["🌐","Шабака ва интернет",["Санҷиши интернет","Санҷиши Ping","IP-и телефон","Санҷиши DNS"]],
+["🛡️","Амнияти киберӣ",["Маслиҳатҳои амниятӣ","Қоидаҳои пароли қавӣ","Амнияти Wi-Fi","Амнияти телефон","Муҳофизати маълумот","Муҳофизати ҳисоб","Фишинг чист?","Вирус чист?","Firewall чист?","HTTPS чист?","Навсозии система","Нусхаи эҳтиётӣ","Муҳофизати Bluetooth","Wi-Fi-и ҷамъиятӣ","Иҷозатҳои барномаҳо","Муҳофизати файлҳо","Дуздии маълумот","Тасдиқи дуқадамӣ","Амнияти браузер","Рӯйхати амният"]],
+["🐍","Омӯзиши Python",["Дарси Python","Намунаҳои код","Омӯзиши фармонҳо"]],
+["📱","Асбобҳои телефон",["Маълумоти телефон","Маълумоти система"]],
+["🔐","Парол ва рамзгузорӣ",["Сохтани пароли қавӣ","Санҷиши қувваи парол"]],
+["🧮","Ҳисобкунакҳо",["Ҳисобкунаки одӣ","Ҳисобкунаки фоиз"]],
+["📁","Файлҳо ва матн",["Маълумоти файл","Кор бо матн"]],
+["📜","Таърихи санҷишҳо",["Намоиши таърих"]],
+["⚙️","Маълумоти система",["Маълумоти Python","Маълумоти система"]],
+["🚀","Асбобҳои иловагӣ",["Асбобҳои омӯзишӣ"]]
+];
+
+const menu=document.getElementById("menu");
+
+sections.forEach((section,index)=>{
+ const button=document.createElement("div");
+ button.className="item";
+ button.innerHTML=`<span>${section[0]}</span>${section[1]}<span class="number">${String(index+1).padStart(2,"0")}</span>`;
+ button.onclick=()=>openSection(index);
+ menu.appendChild(button);
+});
+
+function openSection(index){
+ document.getElementById("home").style.display="none";
+ document.getElementById("page").style.display="block";
+ document.getElementById("pageTitle").textContent=sections[index][1];
+
+ const tools=document.getElementById("tools");
+ const result=document.getElementById("result");
+ tools.innerHTML="";
+ result.textContent="";
+
+ sections[index][2].forEach((name,toolIndex)=>{
+  const item=document.createElement("div");
+  item.className="tool";
+  item.textContent="🔹 "+name;
+
+  if(index===0){
+   const apiNumbers=[1,4,8,2];
+   item.onclick=()=>runTool("/api/network/"+apiNumbers[toolIndex]);
+  }else if(index===1){
+   item.onclick=()=>runTool("/api/security/"+(toolIndex+1));
+  }
+
+  tools.appendChild(item);
+ });
+}
+
+async function runTool(url){
+ const result=document.getElementById("result");
+ result.textContent="Лутфан интизор шав...";
+ try{
+  const response=await fetch(url);
+  const data=await response.json();
+  result.textContent=data.result || "Натиҷа нест";
+ }catch(error){
+  result.textContent="Хато: Сервер фаъол нест. Termux-ро санҷ.";
+ }
+}
+
+function goBack(){
+ document.getElementById("page").style.display="none";
+ document.getElementById("home").style.display="block";
+ document.getElementById("result").textContent="";
+}
+</script>
+</body>
+</html>
