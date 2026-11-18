@@ -1,4 +1,10 @@
 
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.button import Button
+from kivy.uix.label import Label
+from kivy.core.window import Window
+
 import network_tools
 import security_tools
 import python_tools
@@ -10,11 +16,7 @@ import history_tools
 import system_tools
 import extra_tools
 
-print("================================")
-print("      HACKER MASTER TJ")
-print("         VERSION 20.0")
-print("       200 IMPOSSIBILITIES")
-print("================================")
+Window.clearcolor = (0.03, 0.05, 0.04, 1)
 
 modules = [
     ("Шабака ва интернет", network_tools),
@@ -29,23 +31,63 @@ modules = [
     ("Асбобҳои иловагӣ", extra_tools)
 ]
 
-while True:
-    print("\n========== МЕНЮ ==========")
 
-    for i, (name, module) in enumerate(modules, 1):
-        print(f"[{i}] {name}")
+class HackerMasterApp(App):
 
-    print("[0] Баромадан")
+    def build(self):
+        self.layout = BoxLayout(
+            orientation="vertical",
+            padding=15,
+            spacing=10
+        )
 
-    choice = input("\nРақамро интихоб кун: ")
+        title = Label(
+            text="[b]HACKER MASTER TJ[/b]\nVERSION 20.0",
+            markup=True,
+            font_size="25sp",
+            size_hint_y=None,
+            height=100,
+            color=(0.22, 1, 0.08, 1)
+        )
 
-    if choice == "0":
-        print("То боздид!")
-        break
+        self.layout.add_widget(title)
 
-    if choice.isdigit() and 1 <= int(choice) <= len(modules):
-        name, module = modules[int(choice) - 1]
-        print(f"\n--- {name} ---")
-        module.show_menu()
-    else:
-        print("Рақами нодуруст!")
+        for name, module in modules:
+            button = Button(
+                text=name,
+                font_size="18sp",
+                size_hint_y=None,
+                height=55,
+                background_normal="",
+                background_color=(0.08, 0.20, 0.10, 1),
+                color=(0.3, 1, 0.2, 1)
+            )
+
+            button.bind(
+                on_press=lambda instance, m=module, n=name:
+                self.open_module(m, n)
+            )
+
+            self.layout.add_widget(button)
+
+        self.result = Label(
+            text="CYBER SECURITY • VERSION 20.0",
+            size_hint_y=None,
+            height=50
+        )
+
+        self.layout.add_widget(self.result)
+
+        return self.layout
+
+    def open_module(self, module, name):
+        self.result.text = name
+
+        try:
+            module.show_menu()
+        except Exception as error:
+            self.result.text = str(error)
+
+
+if __name__ == "__main__":
+    HackerMasterApp().run()

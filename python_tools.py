@@ -130,3 +130,40 @@ def learn_if():
 def learn_loop():
     for i in range(1, 6):
         print("Дарси Python:", i)
+
+def run_tool(number):
+    tools = {
+        1: hello,
+        2: add,
+        3: subtract,
+        4: multiply,
+        5: divide,
+        6: even_odd,
+        7: age_check,
+        8: square,
+        9: cube,
+        10: text_length,
+        11: uppercase,
+        12: lowercase,
+        13: reverse_text,
+        14: count_letters,
+        15: count_numbers,
+        16: fruits,
+        17: full_name,
+        18: password_check,
+        19: learn_if,
+        20: learn_loop
+    }
+
+    if int(number) not in tools:
+        return "Асбоб ёфт нашуд!"
+
+    import io
+    from contextlib import redirect_stdout
+
+    result = io.StringIO()
+
+    with redirect_stdout(result):
+        tools[int(number)]()
+
+    return result.getvalue()
